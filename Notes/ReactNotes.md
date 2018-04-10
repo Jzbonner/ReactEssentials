@@ -72,5 +72,5 @@ function Avatar(props) {
 }
 
 <Avatar username="jarrett.bonner" />
-
 ```
+
