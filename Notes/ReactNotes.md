@@ -23,8 +23,8 @@ Compiling those components together will allow you to derive an interface withou
 
 When thinking about components in React you need to think about two things: what state is this component going to be managing or what state is this component going to get from its parent component and the second thing is what is the UI going to look like for this component. 
 
-Basic Javascript Composition | Basic React.js Composition 
---- | --- 
+Basic Javascript Composition |  
+--- |
 
 ```javascript 
 function getProfilePic (username) {
@@ -44,7 +44,8 @@ function getAvatarInfo(username) {
 
 getAvatarInfo('jarrett.bonner')
 ```
-| 
+Basic React.js Composition | 
+--- |
 
 ```javascript 
 function ProfilePic(props) {
