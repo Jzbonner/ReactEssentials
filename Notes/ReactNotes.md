@@ -73,4 +73,25 @@ function Avatar(props) {
 
 <Avatar username="jarrett.bonner" />
 ```
+### Unidirectional Data 
+In jQuery you set up a bunch of event handlers that change the state of the DOM. However you can cause a bunch of confusion with the Data Flow of jQuery; a much more efficient way is to take the State out of the DOM and allow it to exist within your individual components. React is then responsible for rendering the actual UI. Again the only two things you have to think about are the _State_ of our components and then about how the _UI_ looks based off of that _State_.
+* Your UI, in React, is just a function of your State
+* Developers worry about managing the State of our application 
+* React itself then renders the State that you manage 
+
+### Explicit Mutations 
+An example of rendering your UI application through the State could look like this: 
+
+```javascript 
+this.setState({
+    handle: 'jarrett.bonner',
+    authed: true
+})
+```
+
+Having state separated into components allows you to have a very structured to update the state of your application, this idea is known as __Shared Mutable States__. 
+
+A lot of React is mainly just JavaScript. It utilizes the same APIs and functionality from JavasScript. 
+
+
 
