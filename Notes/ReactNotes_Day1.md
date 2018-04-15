@@ -156,8 +156,12 @@ function HandleComponent(props) {
 const wrapperElement = React.createElement(
     'div',
     {id: 'container'},
-    React.createElement(NameComponent, {name: 'Jarrett Bonner'}),
-    React.createElement(HandleComponent, {handle: '@jarrett.bonner'})
+    NameComponent({name: 'Jarrett Bonner'}),
+    HandleComponent({handle: '@jarrett.bonner'})
+
+    //The above is the equivalent of just without the .createElement method
+    //React.createElement(NameComponent, {name: 'Jarrett Bonner'}),
+    //React.createElement(HandleComponent, {handle: '@jarrett.bonner'})
 );
 
 ReactDOM.render(
@@ -167,4 +171,37 @@ ReactDOM.render(
 
 console.log('wrapperElement',wrapperElement);
 ```
+
+The goal with the way in which React is built out or composed, is to make it easier to build out an interface. If you think about how abstraction plays a role in React, you don't have to utilize the `.createElement()` method, you can use our standard HTML5. A re-envisioned version of the above that incorporates babel and JSX would look like: 
+
+```javascript  
+const name = "Jarrett Bonner";
+const handle = "@jarrett.bonner";
+
+function NameComponent(props) {
+  //In React Components are capitalized in the same vein as a Constructor is capitalized in plain JS
+  return <h1>{props.name}</h1>;
+}
+
+function HandleComponent(props) {
+  return <h3>{props.handle}</h3>;
+}
+
+function App() {
+  return (
+    <div id="container">
+      <NameComponent name={name} />
+      <HandleComponent handle={handle} />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("app"));
+```
+Refer to React Examples Folder for further examples on these aforementioned concepts. 
+
+Information and documentation on Babel and JSX: 
+* Babel ~ https://babeljs.io/
+* JSX ~ https://facebook.github.io/jsx/
+
 
