@@ -93,5 +93,78 @@ Having state separated into components allows you to have a very structured to u
 
 A lot of React is mainly just JavaScript. It utilizes the same APIs and functionality from JavasScript. 
 
+## React Fundamentals 
+Object representation of a DOM element as opposed to the traditional DOM elements. 
 
+Example Code for a basic use of `ReactDOM.render()`, `const elementName`, and `React.createElement`: 
+
+```javascript 
+const name = 'Jarrett';
+const handle = '@jarrett.bonner';
+
+
+const nameElement = React.createElement(
+    'h1', 
+    null,
+    name, 
+);
+
+const handleElement = React.createElement(
+    'h3',
+    null,
+    handle
+);
+
+const wrapperElement = React.createElement(
+    'div',
+    {id: 'container'},
+    nameElement,
+    handleElement
+)
+
+ReactDOM.render(
+    wrapperElement, 
+    document.getElementById('app')
+);
+
+console.log('wrapperElement',wrapperElement);
+```
+
+ReactDOM is rendering all of the elements that are created as a constant in the Javascript File to the `div` element that contains the `id = 'app'`. React allows you to have your State live inside your components and whenever the state changes it changes the UI based off of that new state, via creating an Object Representation of the DOM. Comparing DOM nodes is a complex process but if you just have objects that can reference the same location in memory then comparisons can be made to alter the rendered UI. 
+
+In React components are a function or a class that optimally excepts parameters or props and returns a React Element. __Props__ are essentially information that you pass to a component. 
+
+React is still javascript so it makes far more sense to create functions or Components instead of using a bunch of individual React elements. A more efficient way to complete the code listed above would be to organize it as follows: 
+
+```javascript 
+function NameComponent(props) { //In React Components are capitalized in the same vein as a Constructor is capitalized in plain JS
+    return React.createElement(
+        'h1',
+        null,
+        props.name
+    )
+};
+
+function HandleComponent(props) {
+    return React.createElement(
+        'h3',
+        null,
+        props.handle
+    )
+};
+
+const wrapperElement = React.createElement(
+    'div',
+    {id: 'container'},
+    React.createElement(NameComponent, {name: 'Jarrett Bonner'}),
+    React.createElement(HandleComponent, {handle: '@jarrett.bonner'})
+);
+
+ReactDOM.render(
+    wrapperElement, 
+    document.getElementById('app')
+);
+
+console.log('wrapperElement',wrapperElement);
+```
 
