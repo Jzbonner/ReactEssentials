@@ -40,3 +40,10 @@ React constructors require you to utilize the `super()` method. "Whenever you ca
 * This is an example of both Polymorphism, Data Hiding, and Is-a/Has-a Inheritance in ES6 JS
 * Refer to notes on Object Oriented Thought Process for more information on the aforementioned programming concepts 
 * State is local to a component, so a component can manage its own state; however props are when you pass data to a component 
+
+Utilizing a class component allows you to utilize a method for each way you will be interacting with your component state. You can do this by using the `setState()` method that is located on the component instance. 
+
+It is necessary to utilize the above method so tha React can compare state changes. If you were to explicitly mutate a specific property of the state without the `setState()` method, then React would not be able to compare states. It doesn't keep a log of the invoked state properties, it simply looks for methods that signal a change in state properties. 
+* Methods that are consistently used to modify arrays are `filter()`, `map()` and `reduce()`
+* In a more contrived example for handling changes to state properties, you would organize your arrays by utilizing IDs that are linked to corresponding name values. In the React Examples folder for Day 2 we are simplifying the React application process 
+
