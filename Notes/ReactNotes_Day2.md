@@ -46,4 +46,6 @@ Utilizing a class component allows you to utilize a method for each way you will
 It is necessary to utilize the above method so tha React can compare state changes. If you were to explicitly mutate a specific property of the state without the `setState()` method, then React would not be able to compare states. It doesn't keep a log of the invoked state properties, it simply looks for methods that signal a change in state properties. 
 * Methods that are consistently used to modify arrays are `filter()`, `map()` and `reduce()`
 * In a more contrived example for handling changes to state properties, you would organize your arrays by utilizing IDs that are linked to corresponding name values. In the React Examples folder for Day 2 we are simplifying the React application process 
+* refer to documentation on `.bind(this)` @ https://medium.com/shoutem/react-to-bind-or-not-to-bind-7bf58327e22a
 
+A controlled component is a component that is linked to the state of a component that is controlled by React. Refer to example `main.js` file in the React Examples folder. 
