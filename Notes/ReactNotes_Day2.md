@@ -49,3 +49,4 @@ It is necessary to utilize the above method so tha React can compare state chang
 * refer to documentation on `.bind(this)` @ https://medium.com/shoutem/react-to-bind-or-not-to-bind-7bf58327e22a
 
 A controlled component is a component that is linked to the state of a component that is controlled by React. Refer to example `main.js` file in the React Examples folder. 
+
