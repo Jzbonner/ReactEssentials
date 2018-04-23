@@ -1,147 +1,127 @@
-function FriendsList (props) {
+function ActiveFriends (props) {
   return (
     <div>
-      <h2> Active Friends </h2>
+      <h2>Active Friends</h2>
       <ul>
-        {props.list.map((name) => (
-          <li key={name}> 
-            <span> {name} </span>
-            <button onClick={() => props.onRemoveFriend(name)}> Remove </button>
-            <button onClick={() => props.onDeactivateFriend(name)}> Deactivate </button>
-          </li>
-        ))}
-      </ul>
-      <h2> Inactive Friends </h2>
-      <ul>
-        {props.list2.map((name) => (
-          <li key={name}>
-            <span> {name} </span>
-            <button onClick={() => props.onActivateFriend(name)}> Activate </button>
+        {props.list.map((friend) => (
+          <li key={friend.name}>
+            <span>{friend.name}</span>
+            <button onClick={() => props.onRemoveFriend(friend.name)}>Remove</button>
+            <button onClick={() => props.onToggleFriend(friend.name)}>Deactivate</button>
           </li>
         ))}
       </ul>
     </div>
   )
-};
-
-// Class component can specify what the UI will be by utilizing a render method 
+}
+function InactiveFriends (props) {
+  return (
+    <div>
+      <h2>Inactive Friends</h2>
+      <ul>
+        {props.list.map((friend) => (
+          <li key={friend.name}>
+            <span>{friend.name}</span>
+            <button onClick={() => props.onToggleFriend(friend.name)}>Activate</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 class App extends React.Component {
   constructor(props) {
-      super(props) 
-
-      // instances that are living in the state of the main React Component   
-      this.state = {
-          activeFriends: ['Eric', 'Antron', 'Jose'],
-          inactiveFriends: ['Mark'],
-          input: '',
-      }
-
-      // need to add a property to your constructor class that binds the 'this' keyword to the super class component instance 
-      this.handleAddFriend = this.handleAddFriend.bind(this)
-      this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
-      this.handleActivateFriend = this.handleActivateFriend.bind(this)
-      this.handleDeactivateFriend = this.handleDeactivateFriend.bind(this)
-      this.handleClearAll = this.handleClearAll.bind(this)
-      this.updateInput = this.updateInput.bind(this)
-      
+    super(props)
+    this.state = {
+      friends: [
+        {
+          name: 'Jordyn',
+          active: true,
+        },
+        {
+          name: 'Mikenzi',
+          active: true,
+        },
+        {
+          name: 'Jake',
+          active: false
+        }
+      ],
+      input: '',
+    }
+    this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
+    this.updateInput = this.updateInput.bind(this)
+    this.handleAddFriend = this.handleAddFriend.bind(this)
+    this.handleToggleFriend = this.handleToggleFriend.bind(this)
   }
-
-  handleAddFriend(name) {
+  handleAddFriend() {
     this.setState((currentState) => {
       return {
-        activeFriends: currentState.activeFriends.concat([this.state.input]),
+        friends: currentState.friends.concat([{
+          name: this.state.input,
+          active: true
+        }]),
         input: ''
       }
     })
   }
-
   handleRemoveFriend(name) {
     this.setState((currentState) => {
       return {
-        activeFriends: currentState.activeFriends.filter((friend) => friend != name)
+        friends: currentState.friends.filter((friend) => friend.name !== name)
       }
     })
   }
-
-  handleActivateFriend(name) {
+  handleToggleFriend(name) {
     this.setState((currentState) => {
-      return {      
-        activeFriends: currentState.activeFriends.concat(name),
-        inactiveFriends: currentState.inactiveFriends.filter((friend) => friend != name)
-      }
-    })
-  }
-
-  handleDeactivateFriend(name) {
-    this.setState((currentState) => {
+      const friend = currentState.friends.find((friend) => friend.name === name)
       return {
-        inactiveFriends: currentState.inactiveFriends.concat(name),
-        activeFriends: currentState.activeFriends.filter((friend) => friend != name)
+        friends: currentState.friends.filter((friend) => friend.name !== name)
+          .concat([{
+            name,
+            active: !friend.active
+          }])
       }
     })
   }
-
-  handleClearAll() {
-    this.setState((currentState) => {
-      return {
-        activeFriends: [],
-        inactiveFriends: []
-      }
-    })
-  }
-
   updateInput(e) {
     const value = e.target.value
-
-    this.setState(() => ({
+    this.setState({
       input: value
-    }))
+    })
   }
-
   render() {
     return (
       <div>
         <input
-          type ='text'
-          placeholder = 'new friend'
-          value = {this.state.input} //controlled component
-          onChange = {this.updateInput}
+          type='text'
+          placeholder='new friend'
+          value={this.state.input}
+          onChange={this.updateInput}
         />
-        <button onClick = {this.handleAddFriend}> Submit </button>
-        <button onClick = {this.handleClearAll}> Clear All </button>
-        <FriendsList 
-          list = {this.state.activeFriends}
-          list2 = {this.state.inactiveFriends}
-          onRemoveFriend = {this.handleRemoveFriend}
-          onActivateFriend = {this.handleActivateFriend}
-          onDeactivateFriend = {this.handleDeactivateFriend}
+        <button onClick={this.handleAddFriend}>
+          Submit
+        </button>
+        <div>
+          <button onClick={() => this.setState({
+            friends: []
+          })}>Clear All</button>
+        </div>
+        <ActiveFriends
+          list={this.state.friends.filter((friend) => friend.active === true)}
+          onRemoveFriend={this.handleRemoveFriend}
+          onToggleFriend={this.handleToggleFriend}
         />
-      </div> 
+        <InactiveFriends
+          list={this.state.friends.filter((friend) => friend.active === false)}
+          onToggleFriend={this.handleToggleFriend}
+        />
+      </div>
     )
   }
-};
+}
 
 ReactDOM.render(
-  <App />,  
+  <App />,
   document.getElementById('app')
 )
-
-
-
-/* Functional component example of the above
-
-function App () { 
-  const friends = ['Eric', 'Antron', 'Jose'];
-
-  return (
-    <div>
-      <FriendsList list={friends} />
-    </div> 
-  );
-};
-
-ReactDOM.render(
-  <App />,  document.getElementById('app')
-)
-
-*/
