@@ -1,13 +1,26 @@
 function FriendsList (props) {
   return (
-    <ul>
-      {props.list.map(name => (
-        <li key={name}> 
-          <span> {name} </span>
-          <button onClick={() => props.onRemoveFriend(name)}> Remove </button>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <h2> Active Friends </h2>
+      <ul>
+        {props.list.map((name) => (
+          <li key={name}> 
+            <span> {name} </span>
+            <button onClick={() => props.onRemoveFriend(name)}> Remove </button>
+            <button onClick={() => props.onDeactivateFriend(name)}> Deactivate </button>
+          </li>
+        ))}
+      </ul>
+      <h2> Inactive Friends </h2>
+      <ul>
+        {props.list2.map((name) => (
+          <li key={name}>
+            <span> {name} </span>
+            <button onClick={() => props.onActivateFriend(name)}> Activate </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 };
 
@@ -18,20 +31,25 @@ class App extends React.Component {
 
       // instances that are living in the state of the main React Component   
       this.state = {
-          friends: ['Eric', 'Antron', 'Jose'],
+          activeFriends: ['Eric', 'Antron', 'Jose'],
+          inactiveFriends: ['Mark'],
           input: '',
       }
 
       // need to add a property to your constructor class that binds the 'this' keyword to the super class component instance 
-      this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
-      this.updateInput = this.updateInput.bind(this)
       this.handleAddFriend = this.handleAddFriend.bind(this)
+      this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
+      this.handleActivateFriend = this.handleActivateFriend.bind(this)
+      this.handleDeactivateFriend = this.handleDeactivateFriend.bind(this)
+      this.handleClearAll = this.handleClearAll.bind(this)
+      this.updateInput = this.updateInput.bind(this)
+      
   }
 
   handleAddFriend(name) {
     this.setState((currentState) => {
       return {
-        friends: currentState.friends.concat([this.state.input]),
+        activeFriends: currentState.activeFriends.concat([this.state.input]),
         input: ''
       }
     })
@@ -40,7 +58,34 @@ class App extends React.Component {
   handleRemoveFriend(name) {
     this.setState((currentState) => {
       return {
-        friends: currentState.friends.filter((friend) => friend != name)
+        activeFriends: currentState.activeFriends.filter((friend) => friend != name)
+      }
+    })
+  }
+
+  handleActivateFriend(name) {
+    this.setState((currentState) => {
+      return {      
+        activeFriends: currentState.activeFriends.concat(name),
+        inactiveFriends: currentState.inactiveFriends.filter((friend) => friend != name)
+      }
+    })
+  }
+
+  handleDeactivateFriend(name) {
+    this.setState((currentState) => {
+      return {
+        inactiveFriends: currentState.inactiveFriends.concat(name),
+        activeFriends: currentState.activeFriends.filter((friend) => friend != name)
+      }
+    })
+  }
+
+  handleClearAll() {
+    this.setState((currentState) => {
+      return {
+        activeFriends: [],
+        inactiveFriends: []
       }
     })
   }
@@ -62,10 +107,14 @@ class App extends React.Component {
           value = {this.state.input} //controlled component
           onChange = {this.updateInput}
         />
-        <button onClick = {this.handleAddFriend}>Submit</button>
+        <button onClick = {this.handleAddFriend}> Submit </button>
+        <button onClick = {this.handleClearAll}> Clear All </button>
         <FriendsList 
-          list={this.state.friends}
+          list = {this.state.activeFriends}
+          list2 = {this.state.inactiveFriends}
           onRemoveFriend = {this.handleRemoveFriend}
+          onActivateFriend = {this.handleActivateFriend}
+          onDeactivateFriend = {this.handleDeactivateFriend}
         />
       </div> 
     )
@@ -76,6 +125,8 @@ ReactDOM.render(
   <App />,  
   document.getElementById('app')
 )
+
+
 
 /* Functional component example of the above
 
